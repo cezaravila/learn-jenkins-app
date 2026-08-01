@@ -6,6 +6,11 @@ pipeline {
         NETLIFY_SITE_ID = '2e035a6f-d3aa-493a-94c1-eebe5426a793'
     }
 
+    /*
+    TZ=America/Campo_Grande
+    34 17 * * 6
+    */
+
     stages {
         
         stage('Build') {
