@@ -87,11 +87,21 @@ pipeline {
             
             steps {
                 sh '''
+                if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+                    echo "ERRO: A variavel NETLIFY_AUTH_TOKEN esta VAZIA!"
+                    exit 1
+                else
+                    echo "SUCESSO: A variavel de autenticacao foi encontrada!"
+                fi
+
+                npx netlify status
+            ''' 
+                /*sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLITY_SITE_ID"
                     node_modules/.bin/netlify status
-                '''
+                ''' */
                 /*sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
