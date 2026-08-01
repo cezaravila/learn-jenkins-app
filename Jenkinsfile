@@ -81,7 +81,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
+                    reuseNode true [cite: 53]
                     // Passa a variável de ambiente diretamente para DENTRO do container Docker
                     args '-e NETLIFY_AUTH_TOKEN=${NETLIFY_AUTH_TOKEN} -e NETLIFY_SITE_ID=${NETLIFY_SITE_ID}' [cite: 32]
                 }
