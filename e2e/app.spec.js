@@ -6,6 +6,7 @@ test('has title', async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Learn Jenkins/);
+  await expect(page).toHaveURL('https://cerulean-sherbet-9d7a65.netlify.app/');
 });
 
 test('has Jenkins in the body', async ({ page }) => {
