@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-                NETLITY_AUTH_TOKEN = credentials('netlify-token') [cite: 17]
+                NETLITY_AUTH_TOKEN = credentials('netlify-token')
                 NETLIFY_SITE_ID = credentials('2e035a6f-d3aa-493a-94c1-eebe5426a793')
     }
 
@@ -81,9 +81,9 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true [cite: 53]
+                    reuseNode true
                     // Passa a variável de ambiente diretamente para DENTRO do container Docker
-                    args '-e NETLIFY_AUTH_TOKEN=${NETLIFY_AUTH_TOKEN} -e NETLIFY_SITE_ID=${NETLIFY_SITE_ID}' [cite: 32]
+                    args '-e NETLIFY_AUTH_TOKEN=${NETLIFY_AUTH_TOKEN} -e NETLIFY_SITE_ID=${NETLIFY_SITE_ID}'
                 }
             }
             
