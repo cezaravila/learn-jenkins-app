@@ -82,20 +82,24 @@ pipeline {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
+                    // Passa a variável de ambiente diretamente para DENTRO do container Docker
+                    args '-e NETLIFY_AUTH_TOKEN=${NETLIFY_AUTH_TOKEN}'
                 }
             }
             
             steps {
                 sh '''
+                    echo " Verificando se o token está visível no container..."
                     if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
-                        echo "ERRO: A variavel NETLIFY_AUTH_TOKEN esta VAZIA!"
+                        echo "❌ ERRO: A variável NETLIFY_AUTH_TOKEN continua vazia dentro do container!"
                         exit 1
                     else
-                        echo "SUCESSO: A variavel de autenticacao foi encontrada!"
+                        echo "✅ SUCESSO: Token detectado!"
                     fi
 
+                    # Executa o status do Netlify
                     npx netlify status
-                ''' 
+                '''
                 /*sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
