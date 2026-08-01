@@ -89,23 +89,11 @@ pipeline {
             
             steps {
                 sh '''
-                    echo " Verificando se o token está visível no container..."
-                    if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
-                        echo "❌ ERRO: A variável NETLIFY_AUTH_TOKEN continua vazia dentro do container!"
-                        exit 1
-                    else
-                        echo "✅ SUCESSO: Token detectado!"
-                    fi
-
-                    # Executa o status do Netlify
-                    npx netlify status
-                '''
-                /*sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLITY_SITE_ID"
                     node_modules/.bin/netlify status
-                ''' */
+                '''
                 /*sh '''
                     npm install netlify-cli@20.1.1
                     node_modules/.bin/netlify --version
