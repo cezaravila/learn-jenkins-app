@@ -2,7 +2,8 @@
 const { test, expect } = require('@playwright/test');
 
 test('has title', async ({ page }) => {
-  await page.goto('/');
+  //await page.goto('/');
+  await page.goto('https://cerulean-sherbet-9d7a65.netlify.app/');
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Learn Jenkins/);
