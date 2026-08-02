@@ -9,6 +9,9 @@ pipeline {
     /*
     TZ=America/Campo_Grande
     34 17 * * 6
+
+    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
+    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' 'unsafe-inline' data:;")
     */
 
     stages {
