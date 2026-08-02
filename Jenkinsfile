@@ -125,7 +125,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://cerulean-sherbet-9d7a65.netlify.app'
+                CI_ENVIRONMENT_URL = 'https://spectacular-bienenstitch-a76bc5.netlify.app'
             }
 
             steps {
