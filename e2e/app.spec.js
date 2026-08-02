@@ -16,6 +16,6 @@ test('has Jenkins in the body', async ({ page }) => {
 });
 
 test('has expected app version', async ({ page }) => {
-  // Valida que o elemento de versão está visível na tela
-  await expect(page.locator('p:has-text("Application version:")')).toBeVisible({ timeout: 10000 });
+  // Aceita "Application Version", "application version", etc.
+  await expect(page.locator('p', { hasText: /application version/i })).toBeVisible({ timeout: 10000 });
 });
