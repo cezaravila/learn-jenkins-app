@@ -14,11 +14,9 @@ const { test, expect } = require('@playwright/test');
 test('has Jenkins in the body', async ({ page }) => {
   await page.goto('/');
 
-  /*const isVisible = await page.locator('a:has-text("Learn Jenkins on Udemy")').isVisible();
-  expect(isVisible).toBeTruthy(); */
+  const isVisible = await page.locator('a:has-text("Learn Jenkins on Udemy")').isVisible();
+  expect(isVisible).toBeTruthy(); 
 
-  // Valida que o texto "Application version:" existe no parágrafo, sem travar no número exato
-  await expect(page.locator('p:has-text("Application version:")')).toBeVisible();
 });
 
 test('has expected app version', async ({ page }) => {
