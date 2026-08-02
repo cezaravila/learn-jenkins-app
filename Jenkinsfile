@@ -132,10 +132,10 @@ pipeline {
 
             post {
                 always {
+                    // 1. Libera permissão de leitura para o usuário do Jenkins
+                    sh 'chmod -R 755 playwright-report'
 
-                    // Lista o conteúdo da pasta para confirmar no log do Jenkins se os arquivos estão lá
-                    sh 'ls -la playwright-report || true'
-
+                    // 2. Publica o relatório HTML
                     publishHTML([
                         allowMissing: false, 
                         alwaysLinkToLastBuild: false, 
