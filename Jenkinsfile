@@ -146,8 +146,7 @@ pipeline {
                         keepAll: true, 
                         reportDir: 'playwright-report', 
                         reportFiles: 'index.html', 
-                        reportName: 'Playwright_E2E', 
-                        reportTitles: '', 
+                        reportName: 'Playwright_E2E',
                         useWrapperFileDirectly: true
                         ])
                 }
