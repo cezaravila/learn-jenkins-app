@@ -14,8 +14,6 @@ test('has title', async ({ page }) => {
 test('has Jenkins in the body', async ({ page }) => {
   await page.goto('/');
 
-  console.log('URL atual:', page.url());
-  console.log('Título atual:', await page.title());
 
   /*const isVisible = await page.locator('a:has-text("Learn Jenkins on Udemy")').isVisible();
   expect(isVisible).toBeTruthy(); */
