@@ -63,17 +63,17 @@ module.exports = defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-  /* Run your local dev server before starting the tests */
   webServer: {
+    command: 'npm run start',
+    url: 'http://127.0.0.1:3000',
+    reuseExistingServer: !process.env.CI,
+  },
+  /* Run your local dev server before starting the tests */
+  /*webServer: {
     command: 'npm run start',          // Comando para ligar seu app no Jenkins
     url: 'http://localhost:3000',      // URL que o Playwright vai esperar responder
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,               // Dá 2 minutos para o app subir
-  },
+  },*/
 });
 
