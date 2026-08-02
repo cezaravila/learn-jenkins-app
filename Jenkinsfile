@@ -75,7 +75,16 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([
+                                allowMissing: false, 
+                                alwaysLinkToLastBuild: false, 
+                                keepAll: false, 
+                                reportDir: 'playwright-report', 
+                                reportFiles: 'index.html', 
+                                reportName: 'Playwright Local', 
+                                reportTitles: '', 
+                                useWrapperFileDirectly: true
+                                ])
                         }
                     }
                 }
@@ -123,7 +132,20 @@ pipeline {
 
             post {
                 always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
+
+                    // Lista o conteúdo da pasta para confirmar no log do Jenkins se os arquivos estão lá
+                    sh 'ls -la playwright-report || true'
+
+                    publishHTML([
+                        allowMissing: false, 
+                        alwaysLinkToLastBuild: false, 
+                        keepAll: false, 
+                        reportDir: 'playwright-report', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Playwright E2E', 
+                        reportTitles: '', 
+                        useWrapperFileDirectly: true
+                        ])
                 }
             }
         }
