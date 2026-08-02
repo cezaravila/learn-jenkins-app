@@ -13,7 +13,7 @@ test('has Jenkins in the body', async ({ page }) => {
 
   /*const isVisible = await page.locator('a:has-text("Learn Jenkins on Udemy")').isVisible();
   expect(isVisible).toBeTruthy(); */
-  await expect(page.locator(`p:has-text("Application version: ${expectedAppVersion}")`)).toBeVisible();
+  await expect(page.locator('p', { hasText: new RegExp(`Application version: ${expectedAppVersion}`, 'i') })).toBeVisible();
 });
 
 test('has expected app version', async ({ page }) => {
