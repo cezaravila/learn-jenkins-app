@@ -138,11 +138,11 @@ pipeline {
                     // 2. Publica o relatório HTML
                     publishHTML([
                         allowMissing: false, 
-                        alwaysLinkToLastBuild: false, 
-                        keepAll: false, 
+                        alwaysLinkToLastBuild: true, 
+                        keepAll: true, 
                         reportDir: 'playwright-report', 
                         reportFiles: 'index.html', 
-                        reportName: 'Playwright E2E', 
+                        reportName: 'Playwright_E2E', 
                         reportTitles: '', 
                         useWrapperFileDirectly: true
                         ])
