@@ -133,24 +133,24 @@ pipeline {
                     npx playwright test  --reporter=html
                 '''
             }
+        }
 
-            post {
-                always {
-                    // 1. Libera permissão de leitura para o usuário do Jenkins
-                    sh 'chmod -R 755 playwright-report'
+        post {
+            always {
+                // 1. Libera permissão de leitura para o usuário do Jenkins
+                sh 'chmod -R 755 playwright-report'
 
-                    // 2. Publica o relatório HTML
-                    publishHTML([
-                        allowMissing: false, 
-                        alwaysLinkToLastBuild: true, 
-                        keepAll: true, 
-                        reportDir: 'playwright-report', 
-                        reportFiles: 'index.html', 
-                        reportName: 'Playwright_E2E', 
-                        reportTitles: '', 
-                        useWrapperFileDirectly: true
-                        ])
-                }
+                // 2. Publica o relatório HTML
+                publishHTML([
+                    allowMissing: false, 
+                    alwaysLinkToLastBuild: true, 
+                    keepAll: true, 
+                    reportDir: 'playwright-report', 
+                    reportFiles: 'index.html', 
+                    reportName: 'Playwright_E2E', 
+                    reportTitles: '', 
+                    useWrapperFileDirectly: true
+                    ])
             }
         }
     }
