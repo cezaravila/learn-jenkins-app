@@ -106,8 +106,7 @@ pipeline {
                     // Passa a variável de ambiente diretamente para DENTRO do container Docker
                     args '-e NETLIFY_AUTH_TOKEN=${NETLIFY_AUTH_TOKEN} -e NETLIFY_SITE_ID=${NETLIFY_SITE_ID}'
                 }
-            }
-            
+            }            
             steps {
                 sh '''
                     npm install netlify-cli@20.1.1 node-jq
@@ -118,6 +117,47 @@ pipeline {
                     node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
                 '''
             }
+            script {
+                env.STAGING_URL = sh(script: "node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
+            }
+        }
+
+        stage('Staging E2E') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+            }
+
+            steps {
+                sh '''
+                    npx playwright test  --reporter=html
+                '''
+            }
+
+            post {
+                always {
+                    // 1. Libera permissão de leitura para o usuário do Jenkins
+                    sh 'chmod -R 755 playwright-report'
+
+                    // 2. Publica o relatório HTML
+                    publishHTML([
+                        allowMissing: false, 
+                        alwaysLinkToLastBuild: true, 
+                        keepAll: true, 
+                        reportDir: 'playwright-report', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Staging_E2E',
+                        useWrapperFileDirectly: true
+                        ])
+                }
+            }
+            
         }
 
         stage('Approval') {
@@ -179,12 +219,11 @@ pipeline {
                         keepAll: true, 
                         reportDir: 'playwright-report', 
                         reportFiles: 'index.html', 
-                        reportName: 'Playwright_E2E',
+                        reportName: 'Prod_E2E',
                         useWrapperFileDirectly: true
                         ])
                 }
             }
-
             
         }
 
