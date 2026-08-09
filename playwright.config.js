@@ -70,7 +70,7 @@ module.exports = defineConfig({
   // },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'node_modules/.bin/serve -s build',
+    command: 'serve -s build',
     url: 'http://localhost:3000',
     reuseExistingServer: true, // <--- Altere para true (assim não dá erro no CI)
   },
