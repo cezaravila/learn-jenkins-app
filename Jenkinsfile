@@ -5,6 +5,17 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
+    agent {
+        docker {
+            image 'node:22-alpine'
+            // Opcional: passa os argumentos necessários para permissões de escrita na workspace
+            args '-u root'
+            // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
+            // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
+            //reuseNode true
+        }
+    }
+
     /*
     TZ=America/Campo_Grande
     34 17 * * 6
@@ -16,16 +27,7 @@ pipeline {
     stages {
         
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    // Opcional: passa os argumentos necessários para permissões de escrita na workspace
-                    args '-u root'
-                    // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
-                    // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
-                    //reuseNode true
-                }
-            }
+            
             steps {
                 sh '''
                     ls -la
@@ -42,15 +44,7 @@ pipeline {
         stage('Tests') {
             parallel {
                 stage('Unit tests') {
-                    agent {
-                        docker {
-                            image 'node:22-alpine'
-                            // Opcional: passa os argumentos necessários para permissões de escrita na workspace
-                            args '-u root'
-                            //reuseNode true
-                        }
-                    }
-
+                    
                     steps {
                         sh '''
                             #test -f build/index.html
