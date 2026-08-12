@@ -62,17 +62,17 @@ module.exports = defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-  /* Run your local dev server before starting the tests */
-  webServer: {
+
+  /*webServer: {
     command: 'serve -s build',
     url: 'http://localhost:3000',
     reuseExistingServer: true, // <--- Altere para true (assim não dá erro no CI)
+  },*/
+  webServer: {
+    command: 'serve -s build -l 3000',
+    url: 'http://127.0.0.1:3000',
+    reuseExistingServer: true,
+    timeout: 120 * 1000,
   },
 });
 
