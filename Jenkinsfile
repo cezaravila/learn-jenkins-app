@@ -141,14 +141,14 @@ pipeline {
                 ]) {
                     sh '''
                         echo "Publicando no Cloudflare Pages..."
-                        # Captura a URL gerada pelo Wrangler
-                        DEPLOY_URL=$(npx wrangler pages deploy build --project-name=learn-jenkins-app | grep -o 'https://[^ ]*pages.dev' | head -n 1)
-                        
-                        # Se não capturar a URL dinâmica, usa a padrão
-                        export CI_ENVIRONMENT_URL="${DEPLOY_URL:-https://learn-jenkins-app.pages.dev}"
-                        echo "Executando testes na URL: $CI_ENVIRONMENT_URL"
+                        npx wrangler pages deploy build --project-name=learn-jenkins-app
 
-                        npx playwright test --reporter=html
+                        export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
+
+                        echo "Aguardando propagação do deploy (10s)..."
+                        sleep 10
+
+                        npx playwright test --reporter=line
                     '''
                 }
             }
