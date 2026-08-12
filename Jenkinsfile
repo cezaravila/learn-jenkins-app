@@ -114,7 +114,15 @@ pipeline {
                 docker {
                     image 'my-playwright'
                     reuseNode true
+                    args '-e CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID} -e CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}'
                 }
+            }
+
+            environment {
+                // Altere para a URL e o nome que você definiu no Cloudflare Pages
+                CI_ENVIRONMENT_URL     = 'https://learn-jenkins-app.pages.dev'
+                CLOUDFLARE_ACCOUNT_ID = credentials('cloudflare-account-id')
+                CLOUDFLARE_API_TOKEN  = credentials('cloudflare-api-token')
             }
 
             environment {
