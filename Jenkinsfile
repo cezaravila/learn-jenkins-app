@@ -130,7 +130,7 @@ pipeline {
                         echo "Gerando a build da aplicação..."
                         npm run build
 
-                        echo "Publicando no Cloudflare Pages (versão estável do Wrangler)..."
+                        echo "Publicando no Cloudflare Pages com Wrangler v3..."
                         npx wrangler@3 pages deploy build --project-name=learn-jenkins-app
 
                         export PLAYWRIGHT_TEST_BASE_URL="https://learn-jenkins-app.pages.dev"
