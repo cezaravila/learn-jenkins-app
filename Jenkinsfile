@@ -16,15 +16,22 @@ pipeline {
     stages {
         
         stage('Build') {
-            agent {
+            /*agent {
                 docker {
                     image 'node:22-alpine'
-                    // Opcional: passa os argumentos necessários para permissões de escrita na workspace
-                    args '-u root'
                     // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
                     // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
                     //reuseNode true
                 }
+            }*/
+            steps {
+                sh '''
+                    docker run --rm -v $(pwd):/app -w /app node:22-alpine sh -c "
+                        node --version
+                        npx wrangler --version
+                        npx wrangler pages deploy build --project-name=seu-projeto
+                    "
+                '''
             }
             steps {
                 cleanWs() // Garante workspace limpo sem artefatos do Node antigo
@@ -45,13 +52,22 @@ pipeline {
         stage('Tests') {
             parallel {
                 stage('Unit tests') {
-                    agent {
+                    /*agent {
                         docker {
                             image 'node:22-alpine'
                             // Opcional: passa os argumentos necessários para permissões de escrita na workspace
                             args '-u root'
                             //reuseNode true
                         }
+                    }*/
+                    steps {
+                        sh '''
+                            docker run --rm -v $(pwd):/app -w /app node:22-alpine sh -c "
+                                node --version
+                                npx wrangler --version
+                                npx wrangler pages deploy build --project-name=seu-projeto
+                            "
+                        '''
                     }
 
                     steps {
