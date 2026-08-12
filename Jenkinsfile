@@ -5,16 +5,6 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
-    agent {
-        docker {
-            image 'node:22-alpine'
-
-            // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
-            // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
-            //reuseNode true
-        }
-    }
-
     /*
     TZ=America/Campo_Grande
     34 17 * * 6
@@ -26,7 +16,15 @@ pipeline {
     stages {
         
         stage('Build') {
-            
+            agent {
+                docker {
+                    image 'node:22-alpine'
+
+                    // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
+                    // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
                     ls -la
@@ -45,7 +43,7 @@ pipeline {
                 stage('Unit tests') {
                     agent {
                         docker {
-                            image 'node:18-alpine'
+                            image 'node:22-alpine'
                             reuseNode true
                         }
                     }
