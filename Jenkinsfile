@@ -104,13 +104,9 @@ pipeline {
                 }
             }
 
-            environment {
-                CI_ENVIRONMENT_URL = 'STAGING_URL_TO_BE_SET'
-            }
 
             steps {
                 sh '''
-                    node --version
                     npx wrangler --version
                     
                     echo "Publicando no Cloudflare Pages (Staging)..."
