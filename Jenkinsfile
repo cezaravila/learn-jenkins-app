@@ -19,7 +19,10 @@ pipeline {
             agent {
                 docker {
                     image 'node:22-alpine'
-                    // Isso faz o
+                    args '-u root'
+
+                    // Quando o reuseNode true está presente em um estágio individual, o Jenkins reaproveita 
+                    // o ambiente do container ou do nó do estágio anterior para evitar reinstalar tudo do zero
                     //reuseNode true
                 }
             }
