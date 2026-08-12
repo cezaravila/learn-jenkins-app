@@ -26,15 +26,12 @@ module.exports = defineConfig({
     ['junit']
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  /*use: {
-    // Base URL to use in actions like `await page.goto('/')`.
+  use: {
+    /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.CI_ENVIRONMENT_URL || 'http://localhost:3000',
 
-    // Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer 
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-  },*/
-  use: {
-    baseURL: 'http://127.0.0.1:3000',
   },
 
   /* Configure projects for major browsers */
@@ -66,16 +63,10 @@ module.exports = defineConfig({
   ],
 
 
-  /*webServer: {
+  webServer: {
     command: 'serve -s build',
     url: 'http://localhost:3000',
     reuseExistingServer: true, // <--- Altere para true (assim não dá erro no CI)
-  },*/
-  webServer: {
-    command: 'serve -s build -l 3000',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: true,
-    timeout: 120 * 1000,
   },
 });
 
