@@ -118,13 +118,12 @@ pipeline {
                 }
             }
 
-            environment {
+            /*environment {
                 // Altere para a URL e o nome que você definiu no Cloudflare Pages
                 CI_ENVIRONMENT_URL     = 'https://learn-jenkins-app.pages.dev'
                 CLOUDFLARE_ACCOUNT_ID = credentials('cloudflare-account-id')
                 CLOUDFLARE_API_TOKEN  = credentials('cloudflare-api-token')
             }
-
             steps {
                 sh '''
                     echo "Publicando no Cloudflare Pages (Staging)..."
@@ -133,6 +132,25 @@ pipeline {
                     export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
                     npx playwright test --reporter=html
                 '''
+            }*/
+
+            steps {
+                withCredentials([
+                    string(credentialsId: 'cloudflare-account-id', variable: 'CF_ACCOUNT_ID'),
+                    string(credentialsId: 'cloudflare-api-token', variable: 'CF_API_TOKEN')
+                ]) {
+                    sh '''
+                        echo "Exportando credenciais para o ambiente..."
+                        export CLOUDFLARE_ACCOUNT_ID="$CF_ACCOUNT_ID"
+                        export CLOUDFLARE_API_TOKEN="$CF_API_TOKEN"
+
+                        echo "Publicando no Cloudflare Pages..."
+                        npx wrangler pages deploy build --project-name=learn-jenkins-app
+
+                        export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
+                        npx playwright test --reporter=html
+                    '''
+                }
             }
 
             post {
