@@ -114,7 +114,6 @@ pipeline {
                 docker {
                     image 'my-playwright'
                     reuseNode true
-                    args '-e CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID} -e CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}'
                 }
             }
 
@@ -140,6 +139,10 @@ pipeline {
                     string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
+                        echo "Exportando credenciais..."
+                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
+                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
+
                         echo "Gerando a build da aplicação..."
                         npm run build
 
@@ -152,8 +155,7 @@ pipeline {
                         npx playwright test --base-url="$TARGET_URL" --reporter=list
                     '''
                 }
-            }
-       
+            }  
 
             post {
                 always {
