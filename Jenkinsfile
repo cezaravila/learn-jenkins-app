@@ -133,13 +133,13 @@ pipeline {
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
 
-                        TARGET_URL="https://learn-jenkins-app.pages.dev"
+                        export PLAYWRIGHT_TEST_BASE_URL="https://learn-jenkins-app.pages.dev"
                         
                         echo "Aguardando propagação..."
                         sleep 5
 
-                        echo "Executando testes na URL: $TARGET_URL"
-                        npx playwright test --base-url="$TARGET_URL" --reporter=list
+                        echo "Executando testes na URL: $PLAYWRIGHT_TEST_BASE_URL"
+                        npx playwright test --reporter=list
                     '''
                 }
             }  
