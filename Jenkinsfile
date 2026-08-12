@@ -112,12 +112,15 @@ pipeline {
 
             steps {
                 sh '''
-                    netlify --version
-                    echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
-                    netlify status
-                    netlify deploy --dir=build --json > deploy-output.json
-                    CI_ENVIRONMENT_URL=$(node-jq -r '.deploy_url' deploy-output.json)
-                    npx playwright test  --reporter=html
+                    node --version
+                    npx wrangler --version
+                    
+                    echo "Publicando no Cloudflare Pages (Staging)..."
+                    # O wrangler faz deploy direto e você atribui a URL do projeto
+                    npx wrangler pages deploy build --project-name=learn-jenkins-app
+                    
+                    CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
+                    npx playwright test --reporter=html
                 '''
             }
 
@@ -150,17 +153,21 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://spectacular-bienenstitch-a76bc5.netlify.app'
+                // Altere para a URL e o nome que você definiu no Cloudflare Pages
+                CI_ENVIRONMENT_URL     = 'https://learn-jenkins-app.pages.dev'
+                CLOUDFLARE_ACCOUNT_ID = credentials('cloudflare-account-id')
+                CLOUDFLARE_API_TOKEN  = credentials('cloudflare-api-token')
             }
 
             steps {
                 sh '''
                     node --version
-                    netlify --version
-                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
-                    netlify status
-                    netlify deploy --dir=build --prod
-                    npx playwright test  --reporter=html
+                    npx wrangler --version
+                    
+                    echo "Publicando no Cloudflare Pages..."
+                    npx wrangler pages deploy build --project-name=learn-jenkins-app
+                    
+                    npx playwright test --reporter=html
                 '''
             }
 
