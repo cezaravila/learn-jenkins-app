@@ -15,9 +15,5 @@ test('has Jenkins in the body', async ({ page }) => {
 
 test('has expected app version', async ({ page }) => {
   await page.goto('/');
-  // Força a exibição no terminal do Jenkins
-  const bodyText = await page.locator('body').innerText();
-  process.stdout.write(`\n--- CONTEÚDO CAPTURADO DA PÁGINA ---\n${bodyText}\n-----------------------------------\n`);
-
   await expect(page.locator('body')).toContainText(/version/i, { timeout: 10000 });
 });

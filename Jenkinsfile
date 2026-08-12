@@ -148,6 +148,7 @@ pipeline {
                         echo "Aguardando propagação do deploy (10s)..."
                         sleep 10
 
+                        echo "Executando testes Playwright..."
                         npx playwright test --reporter=line
                     '''
                 }
