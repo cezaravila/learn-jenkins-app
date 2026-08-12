@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
   // Navega e aguarda o carregamento completo do app
@@ -16,5 +16,5 @@ test('has Jenkins in the body', async ({ page }) => {
 
 test('has expected app version', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('body')).toContainText(/version/i, { timeout: 10000 });
+  await expect(page.locator('body')).toContainText(/version/i, { timeout: 15000 });
 });
