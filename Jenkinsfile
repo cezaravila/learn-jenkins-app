@@ -14,6 +14,12 @@ pipeline {
     */
 
     stages {
+
+        stage('Docker') {
+            steps {
+                sh 'docker build -t my-playwright .'
+            }
+        }
         
         stage('Build') {
             agent {
@@ -65,8 +71,7 @@ pipeline {
                 stage('E2E') {
                     agent {
                         docker {
-                            //image 'my-playwright'
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            image 'my-playwright'
                             reuseNode true
                         }
                     }
@@ -101,7 +106,7 @@ pipeline {
             }
         }
         
-       /* stage('Deploy staging') {
+        stage('Deploy staging') {
             agent {
                 docker {
                     image 'my-playwright'
@@ -144,14 +149,12 @@ pipeline {
                         ])
                 }
             }
-            
-        }*/
+        }
 
         stage('Deploy prod') {
             agent {
                 docker {
-                    //image 'my-playwright'
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-playwright'
                     reuseNode true
                     // Passa os tokens para dentro do container
                     args '-e CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID} -e CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}'
