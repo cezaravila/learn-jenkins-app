@@ -147,18 +147,18 @@ pipeline {
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
 
-                        export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
+                        TARGET_URL="https://learn-jenkins-app.pages.dev"
+                        export CI_ENVIRONMENT_URL="$TARGET_URL"
 
-                        echo "Aguardando 10s para propagação..."
+                        echo "Aguardando propagação do deploy..."
                         sleep 10
 
-                        echo "Executando testes Playwright..."
-                        npx playwright test --reporter=list
+                        echo "Executando testes no ambiente: $TARGET_URL"
+                        npx playwright test --base-url="$TARGET_URL" --reporter=list
                     '''
                 }
             }
-
-            
+       
 
             post {
                 always {
