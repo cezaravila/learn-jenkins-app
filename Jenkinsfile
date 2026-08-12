@@ -147,6 +147,8 @@ pipeline {
                 docker {
                     image 'my-playwright'
                     reuseNode true
+                    // Passa os tokens para dentro do container
+                    args '-e CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID} -e CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}'
                 }
             }
 
