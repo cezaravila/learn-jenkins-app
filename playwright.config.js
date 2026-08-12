@@ -28,7 +28,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // Se a variável CI_ENVIRONMENT_URL não existir, usa o servidor local
-    baseURL: process.env.CI_ENVIRONMENT_URL || 'http://127.0.0.1:3000',
+    baseURL: process.env.CI_ENVIRONMENT_URL || 'http://localhost:3000',
   },
 
   /* Configure projects for major browsers */

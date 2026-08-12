@@ -140,19 +140,14 @@ pipeline {
                     string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
-                        echo "Exportando credenciais..."
-                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
-                        export CF_ACCOUNT_ID="$ACCOUNT_ID"
-                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
-                        export CF_API_TOKEN="$API_TOKEN"
-
-                        echo "Garantindo a existência do projeto..."
-                        npx wrangler pages project create learn-jenkins-app --production-branch="main" || true
-
                         echo "Publicando no Cloudflare Pages..."
-                        npx wrangler pages deploy build --project-name=learn-jenkins-app
+                        # Captura a URL gerada pelo Wrangler
+                        DEPLOY_URL=$(npx wrangler pages deploy build --project-name=learn-jenkins-app | grep -o 'https://[^ ]*pages.dev' | head -n 1)
+                        
+                        # Se não capturar a URL dinâmica, usa a padrão
+                        export CI_ENVIRONMENT_URL="${DEPLOY_URL:-https://learn-jenkins-app.pages.dev}"
+                        echo "Executando testes na URL: $CI_ENVIRONMENT_URL"
 
-                        export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
                         npx playwright test --reporter=html
                     '''
                 }
