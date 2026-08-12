@@ -18,7 +18,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:22-alpine'
                     reuseNode true
                 }
             }
@@ -104,11 +104,18 @@ pipeline {
                 }
             }
 
+            environment {
+                CI_ENVIRONMENT_URL = 'STAGING_URL_TO_BE_SET'
+            }
 
             steps {
                 sh '''
+                    node --version
+                    npx wrangler --version
                     
                     echo "Publicando no Cloudflare Pages (Staging)..."
+                    # O wrangler faz deploy direto e você atribui a URL do projeto
+                    npx wrangler pages deploy build --project-name=learn-jenkins-app
                     
                     CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
                     npx playwright test --reporter=html
