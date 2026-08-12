@@ -136,13 +136,18 @@ pipeline {
 
             steps {
                 withCredentials([
-                    string(credentialsId: 'cloudflare-account-id', variable: 'CF_ACCOUNT_ID'),
-                    string(credentialsId: 'cloudflare-api-token', variable: 'CF_API_TOKEN')
+                    string(credentialsId: 'cloudflare-account-id', variable: 'ACCOUNT_ID'),
+                    string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
-                        echo "Exportando credenciais para o ambiente..."
-                        export CLOUDFLARE_ACCOUNT_ID="$CF_ACCOUNT_ID"
-                        export CLOUDFLARE_API_TOKEN="$CF_API_TOKEN"
+                        echo "Exportando credenciais..."
+                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
+                        export CF_ACCOUNT_ID="$ACCOUNT_ID"
+                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
+                        export CF_API_TOKEN="$API_TOKEN"
+
+                        echo "Garantindo a existência do projeto..."
+                        npx wrangler pages project create learn-jenkins-app --production-branch="main" --enable-direct-uploads || true
 
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
