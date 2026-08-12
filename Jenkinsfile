@@ -140,20 +140,15 @@ pipeline {
                     string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
-                        echo "Exportando credenciais..."
-                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
-                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
+                        echo "Gerando a build da aplicação..."
+                        npm run build
 
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
 
                         TARGET_URL="https://learn-jenkins-app.pages.dev"
-                        export CI_ENVIRONMENT_URL="$TARGET_URL"
-
-                        echo "Aguardando propagação do deploy..."
-                        sleep 10
-
-                        echo "Executando testes no ambiente: $TARGET_URL"
+                        
+                        echo "Executando testes na URL: $TARGET_URL"
                         npx playwright test --base-url="$TARGET_URL" --reporter=list
                     '''
                 }
