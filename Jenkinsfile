@@ -18,7 +18,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:22.23-alpine'
+                    image 'node:22-alpine'
                     // Isso faz o
                     //reuseNode true
                 }
