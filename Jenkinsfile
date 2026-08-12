@@ -127,9 +127,9 @@ pipeline {
 
             steps {
                 sh '''
-                    echo "Publicando no Cloudflare Pages..."
-                    npx wrangler pages deploy build --project-name=learn-jenkins-app
-
+                    echo "Publicando no Cloudflare Pages (Staging)..."
+                    npx wrangler pages deploy build --project-name=learn-jenkins-app --account-id=$CLOUDFLARE_ACCOUNT_ID
+                    
                     export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
                     npx playwright test --reporter=html
                 '''
