@@ -29,6 +29,7 @@ module.exports = defineConfig({
   use: {
     // Se a variável CI_ENVIRONMENT_URL não existir, usa o servidor local
     baseURL: process.env.CI_ENVIRONMENT_URL || 'https://learn-jenkins-app.pages.dev',
+    trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */

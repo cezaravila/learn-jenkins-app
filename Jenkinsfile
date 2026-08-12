@@ -140,17 +140,28 @@ pipeline {
                     string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
+                        echo "Exportando credenciais..."
+                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
+                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
+
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
 
                         export CI_ENVIRONMENT_URL="https://learn-jenkins-app.pages.dev"
 
-                        echo "Aguardando propagação do deploy (10s)..."
+                        echo "Aguardando 10s para propagação..."
                         sleep 10
 
                         echo "Executando testes Playwright..."
-                        npx playwright test --reporter=line
+                        npx playwright test --reporter=list
                     '''
+                }
+            }
+
+            post {
+                always {
+                    // Guarda a imagem capturada para visualizar no painel do Jenkins
+                    archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
                 }
             }
 

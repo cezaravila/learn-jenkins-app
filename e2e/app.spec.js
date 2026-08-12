@@ -15,5 +15,12 @@ test('has Jenkins in the body', async ({ page }) => {
 
 test('has expected app version', async ({ page }) => {
   await page.goto('/');
+
+  // Exibe a URL real que o Playwright está acessando
+  console.log('URL acessada pelo Playwright:', page.url());
+
+  // Tira um print do estado da página e salva na pasta de artefatos
+  await page.screenshot({ path: 'playwright-debug.png', fullPage: true });
+
   await expect(page.locator('body')).toContainText(/version/i, { timeout: 10000 });
 });
