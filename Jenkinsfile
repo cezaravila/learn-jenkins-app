@@ -158,15 +158,13 @@ pipeline {
                 }
             }
 
+            
+
             post {
                 always {
                     // Guarda a imagem capturada para visualizar no painel do Jenkins
                     archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
-                }
-            }
 
-            post {
-                always {
                     // 1. Libera permissão de leitura para o usuário do Jenkins
                     sh 'chmod -R 755 playwright-report'
 
