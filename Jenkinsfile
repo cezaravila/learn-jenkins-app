@@ -33,8 +33,6 @@ pipeline {
                 '''
             }
             steps {
-                cleanWs() // Garante workspace limpo sem artefatos do Node antigo
-                checkout scm
                 sh '''
                     npx wrangler --version
                     ls -la
