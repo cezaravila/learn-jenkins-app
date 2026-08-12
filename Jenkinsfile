@@ -101,10 +101,10 @@ pipeline {
             }
         }
         
-        stage('Deploy staging') {
+       /* stage('Deploy staging') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    image 'my-playwright'
                     reuseNode true
                 }
             }
@@ -145,11 +145,12 @@ pipeline {
                 }
             }
             
-        }
+        }*/
 
         stage('Deploy prod') {
             agent {
                 docker {
+                    //image 'my-playwright'
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                     // Passa os tokens para dentro do container
