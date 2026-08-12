@@ -28,7 +28,6 @@ pipeline {
                 sh '''
                     docker run --rm -v $(pwd):/app -w /app node:22-alpine sh -c "
                         node --version
-                        npx wrangler --version
                         npx wrangler pages deploy build --project-name=seu-projeto
                     "
                 '''
@@ -64,8 +63,7 @@ pipeline {
                         sh '''
                             docker run --rm -v $(pwd):/app -w /app node:22-alpine sh -c "
                                 node --version
-                                npx wrangler --version
-                                npx wrangler pages deploy build --project-name=seu-projeto
+                                npm test
                             "
                         '''
                     }
