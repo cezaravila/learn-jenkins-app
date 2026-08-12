@@ -147,7 +147,7 @@ pipeline {
                         export CF_API_TOKEN="$API_TOKEN"
 
                         echo "Garantindo a existência do projeto..."
-                        npx wrangler pages project create learn-jenkins-app --production-branch="main" --enable-direct-uploads || true
+                        npx wrangler pages project create learn-jenkins-app --production-branch="main" || true
 
                         echo "Publicando no Cloudflare Pages..."
                         npx wrangler pages deploy build --project-name=learn-jenkins-app
