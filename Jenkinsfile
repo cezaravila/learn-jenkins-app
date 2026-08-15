@@ -150,7 +150,7 @@ pipeline {
                     archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
 
                     // 1. Libera permissão de leitura para o usuário do Jenkins
-                    sh 'chmod -R 755 playwright-report'
+                    /*sh 'chmod -R 755 playwright-report'
 
                     // 2. Publica o relatório HTML
                     publishHTML([
@@ -161,7 +161,7 @@ pipeline {
                         reportFiles: 'index.html', 
                         reportName: 'Staging_E2E',
                         useWrapperFileDirectly: true
-                        ])
+                        ])*/
                 }
             }
         }
