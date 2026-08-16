@@ -95,7 +95,7 @@ pipeline {
                                 keepAll: true, 
                                 reportDir: 'playwright-report', 
                                 reportFiles: 'index.html', 
-                                reportName: 'Playwright_Local', 
+                                reportName: 'Local E2E', 
                                 reportTitles: '', 
                                 useWrapperFileDirectly: true
                                 ])
@@ -136,6 +136,11 @@ pipeline {
                     '''
                 }
             }
+            post {
+                always {
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2E', reportTitles: '', useWrapperFileDirectly: true])
+                }
+            }
         }
 
         stage('Deploy prod') {
@@ -161,6 +166,11 @@ pipeline {
                         echo "Publicando na Cloudflare em PRODUÇÃO..."
                         npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app
                     '''
+                }
+            }
+            post {
+                always {
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Prod E2E', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
         }   
