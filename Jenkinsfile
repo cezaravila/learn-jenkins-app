@@ -163,15 +163,15 @@ pipeline {
                         npm run build
 
                         echo "Publicando na Cloudflare em PRODUÇÃO..."
-                        npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app-prod
+                        npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app
                     '''
                 }
             }
         }   
     }
     post {
-            always {
-                archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
-            }
+        always {
+            archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
+        }
     }
 }
