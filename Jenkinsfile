@@ -116,29 +116,26 @@ pipeline {
                     reuseNode true
                 }
             }
-
             steps {
                 withCredentials([
                     string(credentialsId: 'cloudflare-account-id', variable: 'ACCOUNT_ID'),
                     string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
                 ]) {
                     sh '''
-                        echo "Exportando credenciais..."
+                        echo "Exportando credenciais de staging..."
                         export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
                         export CLOUDFLARE_API_TOKEN="$API_TOKEN"
 
-                        echo "Gerando a build da aplicação..."
+                        echo "Gerando a build..."
                         npm run build
 
-                        echo "Publicando no Cloudflare..."
+                        echo "Publicando em Staging..."
                         npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app
 
                         export PLAYWRIGHT_TEST_BASE_URL="https://learn-jenkins-app.pages.dev"
-                        
-                        echo "Aguardando propagação..."
                         sleep 5
 
-                        echo "Executando testes na URL: $PLAYWRIGHT_TEST_BASE_URL"
+                        echo "Executando testes no Staging..."
                         npx playwright test --reporter=list
                     '''
                 }
@@ -170,14 +167,11 @@ pipeline {
                     '''
                 }
             }
-        }
-        
-
-        post {
+        }   
+    }
+    post {
             always {
                 archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
             }
-        }
     }
-    
 }
