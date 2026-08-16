@@ -125,8 +125,8 @@ pipeline {
                         echo "Gerando a build..."
                         npm run build
 
-                        echo "Publicando em Staging..."
-                        npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app
+                        echo "Publicando na Cloudflare..."
+                        wrangler pages deploy build --project-name=learn-jenkins-app
 
                         export PLAYWRIGHT_TEST_BASE_URL="https://learn-jenkins-app.pages.dev"
                         sleep 5
@@ -163,8 +163,14 @@ pipeline {
                         echo "Gerando a build..."
                         npm run build
 
-                        echo "Publicando na Cloudflare em PRODUÇÃO..."
-                        npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app
+                        echo "Publicando na Cloudflare..."
+                        wrangler pages deploy build --project-name=learn-jenkins-app
+
+                        export PLAYWRIGHT_TEST_BASE_URL="https://learn-jenkins-app.pages.dev"
+                        sleep 5
+
+                        echo "Executando testes no Staging..."
+                        npx playwright test --reporter=list
                     '''
                 }
             }

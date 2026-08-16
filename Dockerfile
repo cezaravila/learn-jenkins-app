@@ -10,3 +10,7 @@ RUN apt-get update && apt-get install -y curl \
 RUN npm install -g node-jq serve wrangler
 RUN apt update 
 RUN apt install jq -y
+# Instala o wrangler globalmente na imagem Docker
+RUN npm install -g wrangler@3.109.2
+
+WORKDIR /app
