@@ -143,12 +143,6 @@ pipeline {
                     '''
                 }
             }
-            post {
-                always {
-                    // Guarda a imagem capturada para visualizar no painel do Jenkins
-                    archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
-                }
-            }
         }
 
         stage('Deploy prod') {
@@ -158,7 +152,6 @@ pipeline {
                     reuseNode true
                 }
             }
-
             steps {
                 withCredentials([
                     string(credentialsId: 'cloudflare-account-id', variable: 'ACCOUNT_ID'),
@@ -176,12 +169,13 @@ pipeline {
                         npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app-prod
                     '''
                 }
-            }    
-            post {
-                always {
-                    // Guarda a imagem capturada para visualizar no painel do Jenkins
-                    archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
-                }
+            }
+        }
+        
+
+        post {
+            always {
+                archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
             }
         }
     }
