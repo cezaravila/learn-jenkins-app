@@ -143,80 +143,41 @@ pipeline {
                     '''
                 }
             }
-              
-
-            post {
-                always {
-                    // Guarda a imagem capturada para visualizar no painel do Jenkins
-                    archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
-
-                    // 1. Libera permissão de leitura para o usuário do Jenkins
-                    /*sh 'chmod -R 755 playwright-report'
-
-                    // 2. Publica o relatório HTML
-                    publishHTML([
-                        allowMissing: false, 
-                        alwaysLinkToLastBuild: true, 
-                        keepAll: true, 
-                        reportDir: 'playwright-report', 
-                        reportFiles: 'index.html', 
-                        reportName: 'Staging_E2E',
-                        useWrapperFileDirectly: true
-                        ])*/
-                }
-            }
         }
 
-       /* stage('Deploy prod') {
+        stage('Deploy prod') {
             agent {
                 docker {
                     image 'my-playwright'
                     reuseNode true
-                    // Passa os tokens para dentro do container
-                    args '-e CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID} -e CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}'
                 }
-            }
-
-            environment {
-                // Altere para a URL e o nome que você definiu no Cloudflare Pages
-                CI_ENVIRONMENT_URL     = 'https://learn-jenkins-app.pages.dev'
-                CLOUDFLARE_ACCOUNT_ID = credentials('cloudflare-account-id')
-                CLOUDFLARE_API_TOKEN  = credentials('cloudflare-api-token')
             }
 
             steps {
-                sh '''
-                    node --version
-                    npx wrangler --version
-                    
-                    echo "Publicando no Cloudflare Pages..."
-                    npx wrangler pages deploy build --project-name=learn-jenkins-app
-                    
-                    npx playwright test --reporter=html
-                '''
-            }
+                withCredentials([
+                    string(credentialsId: 'cloudflare-account-id', variable: 'ACCOUNT_ID'),
+                    string(credentialsId: 'cloudflare-api-token', variable: 'API_TOKEN')
+                ]) {
+                    sh '''
+                        echo "Exportando credenciais de produção..."
+                        export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
+                        export CLOUDFLARE_API_TOKEN="$API_TOKEN"
 
-            post {
-                always {
-                    // 1. Libera permissão de leitura para o usuário do Jenkins
-                    sh 'chmod -R 755 playwright-report'
+                        echo "Gerando a build..."
+                        npm run build
 
-                    // 2. Publica o relatório HTML
-                    publishHTML([
-                        allowMissing: false, 
-                        alwaysLinkToLastBuild: true, 
-                        keepAll: true, 
-                        reportDir: 'playwright-report', 
-                        reportFiles: 'index.html', 
-                        reportName: 'Prod_E2E',
-                        useWrapperFileDirectly: true
-                        ])
+                        echo "Publicando na Cloudflare em PRODUÇÃO..."
+                        npx --yes wrangler@3.109.2 pages deploy build --project-name=learn-jenkins-app-prod
+                    '''
                 }
             }
-            
-        }*/
-
+        }
+        post {
+            always {
+                // Guarda a imagem capturada para visualizar no painel do Jenkins
+                archiveArtifacts artifacts: '*.png', allowEmptyArchive: true
+            }
+        }
     }
-
     
 }
