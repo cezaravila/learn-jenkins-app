@@ -8,3 +8,5 @@ RUN apt-get update && apt-get install -y curl \
 
 # Instala as ferramentas necessárias globalmente (incluindo o wrangler)
 RUN npm install -g node-jq serve wrangler
+RUN apt update 
+RUN apt intall jq -y
